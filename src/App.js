@@ -79,7 +79,6 @@ function App() {
         handleSubmit={handleTableFormSubmit}
         limit={tableFormData[table].limit}
         offset={tableFormData[table].offset}
-        data-testid='csv-table'
       />
     ))
   }
