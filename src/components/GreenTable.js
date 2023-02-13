@@ -1,17 +1,19 @@
-import React, {useState, useEffect} from 'react'
-import './GreenTable.css'
+import React, {useState} from 'react'
+import './styles/GreenTable.css'
 import Pagination from './Pagination'
 
 export default function GreenTable(props) {
+
+    const elementsPerPage = 5
 
     const [activePage, setActivePage] = useState(0)
 
     const headerElements = props.headers.map(header => <th>{header}</th>)
 
-    const slicedData = props.data.slice(activePage * 5, activePage * 5 + 5)
+    const slicedData = props.data.slice(activePage * elementsPerPage, (activePage + 1) * elementsPerPage)
 
     const rowElements = slicedData.map(dataObject => {
-        const cellElements = Object.values(dataObject).map(value => <td key={value.applicationId}>{value}</td>)
+        const cellElements = Object.values(dataObject).map(value => <td key={value.applicationId + ' ' + value.version}>{value}</td>)
         return (
             <tr>
                 {cellElements}
@@ -19,7 +21,7 @@ export default function GreenTable(props) {
         )
     })
     
-    const pageCount = Math.floor(props.data.length / 5) + (props.data.length % 5 === 0 ? 0 : 1)
+    const pageCount = Math.floor(props.data.length / elementsPerPage) + (props.data.length % elementsPerPage === 0 ? 0 : 1)
     
     console.log(activePage + ' ' + pageCount)
     

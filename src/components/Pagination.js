@@ -1,12 +1,13 @@
 import React from 'react'
-import './Pagination.css'
+import './styles/Pagination.css'
 
 export default function Pagination(props) {
 
     let paginationElements = []
     for (let i = 0; i < props.pageCount; i++) {
         paginationElements.push(
-            <li 
+            <li
+                key={i} 
                 className={props.activePage === i ? 'active' : ''}
                 id={i}
                 onClick={props.handleClick}

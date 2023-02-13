@@ -4,6 +4,8 @@ import TableWithForm from './components/TableWithForm';
 
 function App() {
 
+  const url = 'http://localhost:5000'
+
   const defaultLimit = 5
 
   const defaultOffset = 0
@@ -25,7 +27,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   async function fetchData(endpoint, limit, offset) {
-    return fetch(`http://localhost:5000/${endpoint}?limit=${limit}&offset=${offset}`)
+    return fetch(`${url}/${endpoint}?limit=${limit}&offset=${offset}`)
       .then(resp => resp.json())
       .then(data => setDataFromCsv(prev => ({
         ...prev,
@@ -53,9 +55,9 @@ function App() {
     const promises = []
     for (const table of tables) {
       promises.push(fetchData(table, defaultLimit, defaultOffset))
-      Promise.all(promises)
-        .then(() => setIsLoading(false))
     }
+    Promise.all(promises)
+      .then(() => setIsLoading(false))
   }, [])
 
   let tableElements = []
