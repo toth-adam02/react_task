@@ -1,3 +1,4 @@
+import { render } from '@testing-library/react';
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import TableWithForm from './components/TableWithForm';
@@ -26,8 +27,11 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(true)
 
+  const [isError, setIsError] = useState(false)
+
   async function fetchData(endpoint, limit, offset) {
     return fetch(`${url}/${endpoint}?limit=${limit}&offset=${offset}`)
+      .catch(() => setIsError(true))
       .then(resp => resp.json())
       .then(data => setDataFromCsv(prev => ({
         ...prev,
@@ -41,7 +45,7 @@ function App() {
       ...prev,
       [id]: {
         ...prev[id],
-        [name]: value
+        [name]: value >= 0 ? value : 0,
       }
     }))
   }
@@ -66,6 +70,7 @@ function App() {
       <TableWithForm
         key={table}
         id={table}
+        elementsPerPage={5}
         tableData={{
           headers: Object.keys(dataFromCsv[table][0]),
           data: dataFromCsv[table]
@@ -74,13 +79,22 @@ function App() {
         handleSubmit={handleTableFormSubmit}
         limit={tableFormData[table].limit}
         offset={tableFormData[table].offset}
+        data-testid='csv-table'
       />
     ))
   }
 
-  return (
-    !isLoading && tableElements
-  )
+  function renderComponent() {
+    if (isError) {
+      return <h1>Error</h1>
+    } else {
+      return (
+        !isLoading && tableElements
+      )
+    }
+  }
+
+  return renderComponent()
 }
 
 export default App;

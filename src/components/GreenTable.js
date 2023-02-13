@@ -4,13 +4,11 @@ import Pagination from './Pagination'
 
 export default function GreenTable(props) {
 
-    const elementsPerPage = 5
-
     const [activePage, setActivePage] = useState(0)
 
     const headerElements = props.headers.map(header => <th>{header}</th>)
 
-    const slicedData = props.data.slice(activePage * elementsPerPage, (activePage + 1) * elementsPerPage)
+    const slicedData = props.data.slice(activePage * props.elementsPerPage, (activePage + 1) * props.elementsPerPage)
 
     const rowElements = slicedData.map(dataObject => {
         const cellElements = Object.values(dataObject).map(value => <td key={value.applicationId + ' ' + value.version}>{value}</td>)
@@ -21,7 +19,7 @@ export default function GreenTable(props) {
         )
     })
     
-    const pageCount = Math.floor(props.data.length / elementsPerPage) + (props.data.length % elementsPerPage === 0 ? 0 : 1)
+    const pageCount = Math.floor(props.data.length / props.elementsPerPage) + (props.data.length % props.elementsPerPage === 0 ? 0 : 1)
     
     console.log(activePage + ' ' + pageCount)
     

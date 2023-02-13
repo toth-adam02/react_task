@@ -29,7 +29,7 @@ export default function TableWithForm(props) {
                 <br />
                 <button className="submit-form" name="submit" id="submit">Query</button>
             </form>
-            <GreenTable key={props.id} headers={props.tableData.headers} data={props.tableData.data} />
+            <GreenTable key={props.id} elementsPerPage={props.elementsPerPage} headers={props.tableData.headers} data={props.tableData.data} />
         </div>
     )
 }
